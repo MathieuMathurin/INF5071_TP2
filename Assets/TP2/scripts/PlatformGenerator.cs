@@ -35,7 +35,7 @@ public class PlatformGenerator : MonoBehaviour {
 
         var x = platform.transform.position.x;
         var y = 0; //Create at origin
-        var z = platform.transform.position.z + platform.transform.localScale.z / 2; //Object creates at center and we would like to create it at extremity
+        var z = platform.transform.position.z + platform.transform.lossyScale.z / 2; //Object creates at center and we would like to create it at extremity
 
         platform.layer = GROUND;
 
