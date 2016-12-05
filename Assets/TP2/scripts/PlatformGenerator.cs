@@ -10,10 +10,12 @@ public class PlatformGenerator : MonoBehaviour {
     public int distanceBetweenInstances = 10;
     public bool somethingExists;
     private float nextInstanciation;
-    
+
+    private const int GROUND = 8;
+
     // Use this for initialization
     void Start () {
-        nextInstanciation = transform.position.z + distanceBetweenInstances;
+        nextInstanciation = transform.position.z;
 	}
 	
 	// Update is called once per frame
@@ -35,14 +37,9 @@ public class PlatformGenerator : MonoBehaviour {
         var y = 0; //Create at origin
         var z = platform.transform.position.z + platform.transform.localScale.z / 2; //Object creates at center and we would like to create it at extremity
 
-        platform.layer = 8;
+        platform.layer = GROUND;
 
         platform.transform.position = new Vector3(x, y, z);        
-    }
-
-    public void ForceCreation()
-    {
-        CreatePlatform(platformPrefab);        
     }
 
     void RandomizeCreation()
@@ -78,7 +75,7 @@ public class PlatformGenerator : MonoBehaviour {
     void OnCollisionExit(Collision collision)
     {
         somethingExists = false;
-        //Postpone creation to make a hole
+        //Postpone creation to make a Gap
         nextInstanciation = transform.position.z + distanceBetweenInstances;        
     }    
 }
