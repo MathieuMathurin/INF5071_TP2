@@ -16,6 +16,7 @@ public class PlatformGenerator : MonoBehaviour {
     // Use this for initialization
     void Start () {
         nextInstanciation = transform.position.z;
+        CreatePlatform(platformPrefab);
 	}
 	
 	// Update is called once per frame
