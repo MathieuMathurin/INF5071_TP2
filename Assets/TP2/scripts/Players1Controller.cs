@@ -12,6 +12,7 @@ public class Players1Controller : MonoBehaviour {
     public float jumpRestriction = 2;
 
     public bool grounded;
+    private bool doubleJump = false;
     // Use this for initialization
     void Start () {
         animator = GetComponent<Animator>();
@@ -24,9 +25,8 @@ public class Players1Controller : MonoBehaviour {
         float moveZ = Input.GetAxis("Vertical");
 
         grounded = Physics.CheckSphere(groundCheck.position, groundRadius, whatIsGround);
-        animator.SetBool("isGrounded", grounded);
-
-        var jumpSpeed = !grounded ? speed / 2 : speed;
+        animator.SetBool("isGrounded", grounded);        
+        var jumpSpeed = !grounded ? speed / jumpRestriction : speed;
 
         var movement = new Vector3(-moveX, 0f, -moveZ);
         movement = movement * jumpSpeed * Time.deltaTime;
@@ -38,13 +38,27 @@ public class Players1Controller : MonoBehaviour {
 
         var jumpKey = KeyCode.Space;
         var controllerJumpKey = KeyCode.Joystick1Button1;
-        if (grounded && (Input.GetKeyDown(controllerJumpKey) || Input.GetKeyDown(jumpKey)))
+        if (Input.GetKeyDown(controllerJumpKey) || Input.GetKeyDown(jumpKey))
+        {            
+            if(grounded || !doubleJump)
+            {
+                Jump();
+                doubleJump = true;
+            }
+        }
+
+        //resets double jump
+        if (grounded && doubleJump)
         {
-            animator.SetBool("isGrounded", false);
-            rigidBody.AddForce(jumpForce * -Physics.gravity, ForceMode.Impulse);
+            doubleJump = false;
         }
 
         var movingSpeed = Mathf.Abs(moveX) == 1 || Mathf.Abs(moveZ) == 1 ? 1 : 0;
         animator.SetFloat("Speed", movingSpeed);
+    }
+
+    void Jump()
+    {
+        rigidBody.AddForce(jumpForce * -Physics.gravity, ForceMode.Impulse);
     }
 }
