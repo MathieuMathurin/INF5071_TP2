@@ -41,6 +41,14 @@ public class PlatformGenerator : MonoBehaviour {
         platform.layer = GROUND;
 
         platform.transform.position = new Vector3(x, y, z);        
+
+        var addRotation = System.Convert.ToBoolean(Random.Range(0, 10));
+
+        if (addRotation)
+        {
+            platform.AddComponent<PlatformRotation>();
+        }
+
     }
 
     void RandomizeCreation()
