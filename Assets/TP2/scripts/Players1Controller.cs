@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class Players1Controller : MonoBehaviour {
     Animator animator;
@@ -12,7 +13,6 @@ public class Players1Controller : MonoBehaviour {
     public float jumpRestriction = 2;
 
     public bool grounded;
-    private bool doubleJump = false;
     // Use this for initialization
     void Start () {
         animator = GetComponent<Animator>();
@@ -21,12 +21,17 @@ public class Players1Controller : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {        
+		
+		if (this.transform.position.y < 2) {
+			SceneManager.LoadScene("MainScene");
+		}
         float moveX = Input.GetAxis("Horizontal");
         float moveZ = Input.GetAxis("Vertical");
 
         grounded = Physics.CheckSphere(groundCheck.position, groundRadius, whatIsGround);
-        animator.SetBool("isGrounded", grounded);        
-        var jumpSpeed = !grounded ? speed / jumpRestriction : speed;
+        animator.SetBool("isGrounded", grounded);
+
+        var jumpSpeed = !grounded ? speed / 2 : speed;
 
         var movement = new Vector3(-moveX, 0f, -moveZ);
         movement = movement * jumpSpeed * Time.deltaTime;
@@ -38,27 +43,13 @@ public class Players1Controller : MonoBehaviour {
 
         var jumpKey = KeyCode.Space;
         var controllerJumpKey = KeyCode.Joystick1Button1;
-        if (Input.GetKeyDown(controllerJumpKey) || Input.GetKeyDown(jumpKey))
-        {            
-            if(grounded || !doubleJump)
-            {
-                Jump();
-                doubleJump = true;
-            }
-        }
-
-        //resets double jump
-        if (grounded && doubleJump)
+        if (grounded && (Input.GetKeyDown(controllerJumpKey) || Input.GetKeyDown(jumpKey)))
         {
-            doubleJump = false;
+            animator.SetBool("isGrounded", false);
+            rigidBody.AddForce(jumpForce * -Physics.gravity, ForceMode.Impulse);
         }
 
         var movingSpeed = Mathf.Abs(moveX) == 1 || Mathf.Abs(moveZ) == 1 ? 1 : 0;
         animator.SetFloat("Speed", movingSpeed);
-    }
-
-    void Jump()
-    {
-        rigidBody.AddForce(jumpForce * -Physics.gravity, ForceMode.Impulse);
     }
 }
