@@ -22,7 +22,7 @@ public class Players1Controller : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {        
 		
-		if (this.transform.position.y < 2) {
+		if (this.transform.position.y < 3) {
 			SceneManager.LoadScene("MainScene");
 		}
         float moveX = Input.GetAxis("Horizontal");
