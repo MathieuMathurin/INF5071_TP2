@@ -3,9 +3,16 @@ using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.SceneManagement;
 
+public enum Players
+{
+    Player1 = 1,
+    Player2 = 2
+}
+
 public class Players1Controller : MonoBehaviour {
     Animator animator;
     Rigidbody rigidBody;
+    public Players player = Players.Player1;
 	public string loseText;
     public float speed = 10f;
     public LayerMask whatIsGround;
@@ -15,12 +22,17 @@ public class Players1Controller : MonoBehaviour {
     public float jumpRestriction = 2;
 
 	private string currentMessage = "";
+    private string[] connectedJoysticks;
+    private bool isPlayer1 = true;
 
     public bool grounded;
     // Use this for initialization
     void Start () {
         animator = GetComponent<Animator>();
         rigidBody = GetComponent<Rigidbody>();
+
+        connectedJoysticks = Input.GetJoystickNames();
+        isPlayer1 = player == Players.Player1;
     }
 
 	void OnGUI() {
@@ -35,8 +47,20 @@ public class Players1Controller : MonoBehaviour {
 			StartCoroutine (ExitGame());
 			//SceneManager.LoadScene("MainScene");
 		}
-        float moveX = Input.GetAxis("Horizontal");
-        float moveZ = Input.GetAxis("Vertical");
+        var xAxis = "Horizontal-" + (int)player;
+        var zAxis = "Vertical-" + (int)player;
+
+        var player1HasController = isPlayer1 && connectedJoysticks.Length > 0 && connectedJoysticks[0] != "";
+        var player2HasController = !isPlayer1 && connectedJoysticks.Length > 1 && connectedJoysticks[1] != "";
+        //Map to controllers if they are connected
+        if (player1HasController || player2HasController)
+        {
+            xAxis += "-Controller";
+            zAxis += "-Controller";
+        }
+
+        float moveX = Input.GetAxis(xAxis);
+        float moveZ = Input.GetAxis(zAxis);
 
         grounded = Physics.CheckSphere(groundCheck.position, groundRadius, whatIsGround);
         animator.SetBool("isGrounded", grounded);
@@ -54,8 +78,8 @@ public class Players1Controller : MonoBehaviour {
         
         transform.eulerAngles = new Vector3(0, -Mathf.Atan2(moveX, -moveZ) * 180 / Mathf.PI, 0);
 
-        var jumpKey = KeyCode.Space;
-        var controllerJumpKey = KeyCode.Joystick1Button1;
+        var jumpKey = isPlayer1 ? KeyCode.UpArrow : KeyCode.Space;
+        var controllerJumpKey = isPlayer1 ? KeyCode.Joystick1Button1 : KeyCode.Joystick2Button1;
         if (grounded && (Input.GetKeyDown(controllerJumpKey) || Input.GetKeyDown(jumpKey)))
         {
             animator.SetBool("isGrounded", false);
