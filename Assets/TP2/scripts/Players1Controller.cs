@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.SceneManagement;
 
 public class Players1Controller : MonoBehaviour {
     Animator animator;
     Rigidbody rigidBody;
+	public string loseText;
     public float speed = 10f;
     public LayerMask whatIsGround;
     public float groundRadius = 0.2f;
@@ -12,17 +14,26 @@ public class Players1Controller : MonoBehaviour {
     public float jumpForce;
     public float jumpRestriction = 2;
 
+	private string currentMessage = "";
+
     public bool grounded;
     // Use this for initialization
     void Start () {
         animator = GetComponent<Animator>();
         rigidBody = GetComponent<Rigidbody>();
     }
+
+	void OnGUI() {
+		GUIStyle guiStyle = new GUIStyle ();
+		guiStyle.fontSize = 100;
+		GUI.Label(new Rect(Screen.width / 4, Screen.height / 2, Screen.width, Screen.height) , this.currentMessage, guiStyle);
+	}
 	
 	// Update is called once per frame
 	void Update () {        
 		if (this.transform.position.y < 3.5) {
-			SceneManager.LoadScene("MainScene");
+			StartCoroutine (ExitGame());
+			//SceneManager.LoadScene("MainScene");
 		}
         float moveX = Input.GetAxis("Horizontal");
         float moveZ = Input.GetAxis("Vertical");
@@ -54,4 +65,12 @@ public class Players1Controller : MonoBehaviour {
         var movingSpeed = Mathf.Abs(moveX) == 1 || Mathf.Abs(moveZ) == 1 ? 1 : 0;
         animator.SetFloat("Speed", movingSpeed);
     }
+
+	IEnumerator ExitGame() {
+		Time.timeScale = 0;
+		this.currentMessage = this.loseText;
+		yield return new WaitForSecondsRealtime(2);
+		Time.timeScale = 1;
+		SceneManager.LoadScene("MainScene");
+	}
 }
