@@ -52,7 +52,7 @@ public class CubeKillCountdown : MonoBehaviour {
 	private Color renderTextureSlot() {
 		int rnd = Random.Range (0, 10);
 		if (rnd >= this.treshold) {
-			return this.stableColor;
+			return Color.Lerp (this.stableColor, this.collapseColor, (float)this.treshold / 10 * 0.4f);
 		} else {
 			return this.collapseColor;
 		}
