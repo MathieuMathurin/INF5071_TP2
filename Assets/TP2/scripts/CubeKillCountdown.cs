@@ -10,16 +10,26 @@ public class CubeKillCountdown : MonoBehaviour {
 
 	private Texture2D texture;
 	private int treshold = 0;
+	private int nextRender;
 
 	// Use this for initialization
 	void Start () {
 		this.treshold = this.startingTreshold;
 		this.texture = new Texture2D(this.textureSize, this.textureSize, TextureFormat.ARGB32, false);
+		this.nextRender = 5 - this.startingTreshold / 2;
+		this.renderTexture ();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		this.renderTexture ();
+		if (this.treshold < 10) {
+			if (this.nextRender == 0) {
+				this.renderTexture ();
+				this.nextRender = 5 - this.startingTreshold / 2;
+			} else {
+				this.nextRender--;
+			}
+		}
 	}
 
 	private void renderTexture() {
