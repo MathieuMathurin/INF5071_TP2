@@ -51,10 +51,13 @@ public class CubeKillCountdown : MonoBehaviour {
 
 	private Color renderTextureSlot() {
 		int rnd = Random.Range (0, 10);
+		float coef = (float)this.treshold / 10;
+		if (coef > .5f)
+			coef = .5f;
 		if (rnd >= this.treshold) {
-			return Color.Lerp (this.stableColor, this.collapseColor, (float)this.treshold / 10 * 0.4f);
+			return Color.Lerp (this.stableColor, this.collapseColor, coef);
 		} else {
-			return this.collapseColor;
+			return Color.Lerp (this.collapseColor, this.stableColor, coef - .3f);
 		}
 	}
 }
