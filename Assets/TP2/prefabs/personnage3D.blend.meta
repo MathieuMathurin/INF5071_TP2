@@ -48,6 +48,7 @@ ModelImporter:
     4300000: Sphere
     7400000: Default Take
     7400002: Run
+    7400004: Jump_001
     9500000: //RootNode
     13700000: Sphere
   materials:
@@ -151,6 +152,74 @@ ModelImporter:
       loop: 0
       hasAdditiveReferencePose: 0
       loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Armature
+        weight: 1
+      - path: Armature/Main
+        weight: 1
+      - path: Armature/Main/Hip_Left
+        weight: 1
+      - path: Armature/Main/Hip_Left/Leg_Left
+        weight: 1
+      - path: Armature/Main/Hip_Left/Leg_Left/Calf_Left
+        weight: 1
+      - path: Armature/Main/Hip_Rigt
+        weight: 1
+      - path: Armature/Main/Hip_Rigt/Leg_Right
+        weight: 1
+      - path: Armature/Main/Hip_Rigt/Leg_Right/Calf_Right
+        weight: 1
+      - path: Armature/Main/Lower_Back
+        weight: 1
+      - path: Armature/Main/Lower_Back/Spine
+        weight: 1
+      - path: Armature/Main/Lower_Back/Spine/Neck
+        weight: 1
+      - path: Armature/Main/Lower_Back/Spine/Neck/Head
+        weight: 1
+      - path: Armature/Main/Lower_Back/Spine/Shoulder_Left
+        weight: 1
+      - path: Armature/Main/Lower_Back/Spine/Shoulder_Left/Arm_Left
+        weight: 1
+      - path: Armature/Main/Lower_Back/Spine/Shoulder_Left/Arm_Left/ForeArm_Left
+        weight: 1
+      - path: Armature/Main/Lower_Back/Spine/Shoulder_Right
+        weight: 1
+      - path: Armature/Main/Lower_Back/Spine/Shoulder_Right/Arm_Right
+        weight: 1
+      - path: Armature/Main/Lower_Back/Spine/Shoulder_Right/Arm_Right/ForeArm_Right
+        weight: 1
+      - path: Sphere
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Jump_001
+      takeName: Jump_001
+      firstFrame: 0
+      lastFrame: 22
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
