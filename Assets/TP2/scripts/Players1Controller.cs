@@ -86,7 +86,7 @@ public class Players1Controller : MonoBehaviour {
         
         transform.eulerAngles = new Vector3(0, -Mathf.Atan2(moveX, -moveZ) * 180 / Mathf.PI, 0);
 
-        var jumpKey = isPlayer1 ? KeyCode.UpArrow : KeyCode.Space;
+		var jumpKey = isPlayer1 ? KeyCode.RightShift : KeyCode.Space;
         var controllerJumpKey = isPlayer1 ? KeyCode.Joystick1Button1 : KeyCode.Joystick2Button1;
         if (grounded && (Input.GetKeyDown(controllerJumpKey) || Input.GetKeyDown(jumpKey)))
         {
