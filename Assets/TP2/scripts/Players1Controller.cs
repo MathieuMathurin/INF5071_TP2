@@ -24,6 +24,7 @@ public class Players1Controller : MonoBehaviour {
 	private string currentMessage = "";
     private string[] connectedJoysticks;
     private bool isPlayer1 = true;
+    private bool doubleJumped = false;
 
     public bool grounded;
     // Use this for initialization
@@ -67,6 +68,11 @@ public class Players1Controller : MonoBehaviour {
 		if (!grounded && rigidBody.velocity.y < 0) {
 			rigidBody.AddForce(0.0f, -15.0f, 0.0f);
 		}
+
+        if (grounded)
+        {
+            doubleJumped = false;
+        }
 	
         var jumpSpeed = !grounded ? speed / 2 : speed;
 
@@ -83,11 +89,22 @@ public class Players1Controller : MonoBehaviour {
         if (grounded && (Input.GetKeyDown(controllerJumpKey) || Input.GetKeyDown(jumpKey)))
         {
             animator.SetBool("isGrounded", false);
-            rigidBody.AddForce(jumpForce * -Physics.gravity, ForceMode.Impulse);
+            Jump();            
+        }
+
+        if (!grounded && !doubleJumped && (Input.GetKeyDown(controllerJumpKey) || Input.GetKeyDown(jumpKey)))
+        {
+            Jump();
+            doubleJumped = true;
         }
 
         var movingSpeed = Mathf.Abs(moveX) == 1 || Mathf.Abs(moveZ) == 1 ? 1 : 0;
         animator.SetFloat("Speed", movingSpeed);
+    }
+
+    private void Jump()
+    {
+        rigidBody.AddForce(jumpForce * -Physics.gravity, ForceMode.Impulse);
     }
 
 	IEnumerator ExitGame() {
