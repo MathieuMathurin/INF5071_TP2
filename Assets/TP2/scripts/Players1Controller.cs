@@ -21,7 +21,6 @@ public class Players1Controller : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {        
-		
 		if (this.transform.position.y < 3) {
 			SceneManager.LoadScene("MainScene");
 		}
@@ -30,7 +29,10 @@ public class Players1Controller : MonoBehaviour {
 
         grounded = Physics.CheckSphere(groundCheck.position, groundRadius, whatIsGround);
         animator.SetBool("isGrounded", grounded);
-
+		if (!grounded && rigidBody.velocity.y < 0) {
+			rigidBody.AddForce(0.0f, -15.0f, 0.0f);
+		}
+	
         var jumpSpeed = !grounded ? speed / 2 : speed;
 
         var movement = new Vector3(-moveX, 0f, -moveZ);
