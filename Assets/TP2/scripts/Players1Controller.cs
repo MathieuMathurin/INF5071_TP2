@@ -25,8 +25,9 @@ public class Players1Controller : MonoBehaviour {
     private string[] connectedJoysticks;
     private bool isPlayer1 = true;
     private bool doubleJumped = false;
+    private GameObject[] players;
 
-    public bool grounded;
+    public bool grounded = true;
     // Use this for initialization
     void Start () {
         animator = GetComponent<Animator>();
@@ -34,6 +35,7 @@ public class Players1Controller : MonoBehaviour {
 
         connectedJoysticks = Input.GetJoystickNames();
         isPlayer1 = player == Players.Player1;
+        players = GameObject.FindGameObjectsWithTag("Player");
     }
 
 	void OnGUI() {
@@ -66,7 +68,7 @@ public class Players1Controller : MonoBehaviour {
         grounded = Physics.CheckSphere(groundCheck.position, groundRadius, whatIsGround);
         animator.SetBool("isGrounded", grounded);
 		if (!grounded && rigidBody.velocity.y < 0) {
-			rigidBody.AddForce(0.0f, -15.0f, 0.0f);
+			rigidBody.AddForce(0.0f, -20.0f, 0.0f);
 		}
 
         if (grounded)
